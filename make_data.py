@@ -5,7 +5,7 @@ from pymongo import MongoClient           # pymongo를 임포트 하기(패키�
 from lxml import etree
 from bson import ObjectId
 
-client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
+client = MongoClient('mongodb://jungle:jungle@52.79.91.129', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
 db = client['jungle7']                      # 'dbjungle'라는 이름의 db를 만듭니다.
 
 
@@ -77,6 +77,24 @@ def make_user():
             "post_date" : "2023-10-13"
 
         },
+
+        {
+            "_id" : ObjectId(),
+            "post_title" : "Python에서 while 반복문 사용법",
+            "post_url" : "https://study4silver.tistory.com/207",
+            "user_id" : "test3",
+            "post_date" : "2023-11-13"
+
+        },
+
+        {
+            "_id" : ObjectId(),
+            "post_title" : "Python에서 while 반복문 사용법",
+            "post_url" : "https://study4silver.tistory.com/207",
+            "user_id" : "test2",
+            "post_date" : "2023-11-13"
+
+        },
     ]
 
     collection = db['userpost']  # 콜렉션 이름 설정
@@ -86,43 +104,40 @@ def make_user():
 def select():
     pipeline = [
         {
-            "$addFields": {
-                "converted_date": {
-                    "$dateFromString": {
-                        "dateString": "$post_date",
-                        "format": "%Y-%m-%d"
-                    }
-                }
-            }
-        },
-        {
-            "$group": {
-                "_id": {
-                    "user_id": "$user_id",
-                    "year": { "$year": "$converted_date" },
-                    "month": { "$month": "$converted_date" }
-                },
-                "count": { "$sum": 1 }
-            }
-        },
-        {
             "$lookup": {
-                "from": "user",  # 수정된 부분: 콜렉션 이름 변경
-                "localField": "_id.user_id",
-                "foreignField": "user_id",
-                "as": "user_info"
+                "from": "userpost",
+                "let": {"user_id": "$user_id"},
+                "pipeline": [
+                    {
+                        "$match": {
+                            "$expr": {
+                                "$and": [
+                                    {"$eq": ["$user_id", "$$user_id"]},
+                                    {"$regexMatch": {
+                                        "input": "$post_date",
+                                        "regex": "^2023-10"
+                                    }}
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "$count": "cnt"
+                    }
+                ],
+                "as": "posts"
             }
         },
         {
-            "$unwind": "$user_info"
-        },
-        {
-            "$sort": { "_id.user_id": 1, "_id.year": 1, "_id.month": 1 }
+            "$unwind": {
+                "path": "$posts",
+                "preserveNullAndEmptyArrays": True
+            }
         }
     ]
 
-    results = list(db.userpost.aggregate(pipeline))  # 수정된 부분: 콜렉션 이름 변경
-
+    results = list(db.user.aggregate(pipeline))  # 수정된 부분: 콜렉션 이름 변경
+    results
     for result in results:
         print(result)
 
@@ -135,7 +150,8 @@ if __name__ == '__main__':
     # # 영화 사이트를 scraping 해서 db 에 채우기
     # insert_all()
     # db = client['jungle7']  # DB 이름 설정
-    # db.jungle7.drop()
+    # db.user.drop()
+    # db.userpost.drop()
     # make_user()
     select()
 
