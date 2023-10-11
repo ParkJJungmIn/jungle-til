@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>크래프톤 정글 7팀</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="./skydash/vendors/feather/feather.css">
+    <link rel="stylesheet" href="./skydash/vendors/feather/feather.css">
+    <link rel="stylesheet" href="./skydash/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="./skydash/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="./skydash/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="./skydash/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="./skydash/js/select.dataTables.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="./skydash/css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="./skydash/images/favicon.png" />
+
+    <!-- 스와핑 -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.css'>
+    <link rel="stylesheet" href="./swapping/css/swapping.css">
+</head>
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+
+        <div class="navbar-menu-wrapper col-lg-12 col-12 d-flex align-items-center justify-content-end">
+            <span style="margin-right: 15px;">사용자 명</span>
+            <button class="btn btn-primary">로그아웃</button>
+            <!--        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">-->
+            <!--          <span class="icon-menu"></span>-->
+            <!--        </button>-->
+        </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_settings-panel.html -->
+
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-md-12 grid-margin">
+                        <div class="row">
+                            <div class="col-12 col-xl-8 mb-4 mb-xl-0" style="display: flex; justify-content: center;">
+                                <h3 class="font-weight-bold">기간별 포스팅 랭킹</h3>
+                            </div>
+                            <div class="col-12 col-xl-4">
+                                <div class="justify-content-end d-flex">
+                                    <div style="display: flex;">
+                                        <label style="width: 90px; display: flex; align-items: center; justify-content: center; margin: 0px;">작성일</label>
+                                        <input type="month" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 grid-margin stretch-card">
+                        <div class="card tale-bg">
+                            <div class="card-people mt-auto">
+                                <div class="wrapper">
+
+                                    <section class="module-team">
+
+                                        <div class="team">
+                                            <div class="team-cards">
+
+                                                <!-- Slider main container -->
+                                                <div class="swiper-container" style="padding: 0px; margin: 0px;">
+                                                    <!-- Additional required wrapper -->
+                                                    <div class="swiper-wrapper"></div>
+
+                                                </div>
+
+                                                <div class="swiper-pagination"></div>
+                                                <!-- If we need navigation buttons -->
+                                                <div class="navigation" style="top: 155px;">
+                                                    <div class="swiper-button-prev"></div>
+                                                    <div class="swiper-button-next"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </section>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!--          이날의 포스팅-->
+                <div class="row">
+                    <div class="col-md-12 grid-margin">
+                        <div class="row">
+                            <div class="col-12 col-xl-8 mb-4 mb-xl-0" style="display: flex; justify-content: center;">
+                                <h3 class="font-weight-bold">이날의 포스팅</h3>
+                            </div>
+                            <div class="col-12 col-xl-4">
+                                <div class="justify-content-end d-flex">
+                                    <div style="display: flex;">
+                                        <label style="width: 90px; display: flex; align-items: center; justify-content: center; margin: 0px;">작성일</label>
+                                        <input type="date" class="form-control">
+                                    </div>
+                                    <div style="display: flex; margin-left: 15px;">
+                                        <label style="width: 90px; display: flex; align-items: center; justify-content: center; margin: 0px;">작성자</label>
+                                        <select class="form-control">
+                                            <option>모두</option>
+                                            <option>A</option>
+                                            <option>B</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Hoverable Table</h4>
+                            <p class="card-description">
+                                Add class <code>.table-hover</code>
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Product</th>
+                                        <th>Sale</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Jacob</td>
+                                        <td>Photoshop</td>
+                                        <td class="text-danger"> 28.76% <i class="ti-arrow-down"></i></td>
+                                        <td><label class="badge badge-danger">Pending</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Messsy</td>
+                                        <td>Flash</td>
+                                        <td class="text-danger"> 21.06% <i class="ti-arrow-down"></i></td>
+                                        <td><label class="badge badge-warning">In progress</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>John</td>
+                                        <td>Premier</td>
+                                        <td class="text-danger"> 35.00% <i class="ti-arrow-down"></i></td>
+                                        <td><label class="badge badge-info">Fixed</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Peter</td>
+                                        <td>After effects</td>
+                                        <td class="text-success"> 82.00% <i class="ti-arrow-up"></i></td>
+                                        <td><label class="badge badge-success">Completed</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dave</td>
+                                        <td>53275535</td>
+                                        <td class="text-success"> 98.05% <i class="ti-arrow-up"></i></td>
+                                        <td><label class="badge badge-warning">In progress</label></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer">
+                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
+                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+                </div>
+                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+
+<!-- plugins:js -->
+<script src="./skydash/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="./skydash/vendors/chart.js/Chart.min.js"></script>
+<script src="./skydash/vendors/datatables.net/jquery.dataTables.js"></script>
+<script src="./skydash/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="./skydash/js/dataTables.select.min.js"></script>
+
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="./skydash/js/off-canvas.js"></script>
+<script src="./skydash/js/hoverable-collapse.js"></script>
+<script src="./skydash/js/template.js"></script>
+<script src="./skydash/js/settings.js"></script>
+<script src="./skydash/js/todolist.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="./skydash/js/dashboard.js"></script>
+<script src="./skydash/js/Chart.roundedBarCharts.js"></script>
+<!-- End custom js for this page-->
+
+<!--  스와핑-->
+<script src='./swapping/js/swapping.js'></script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js'></script>
+</body>
+
+</html>
+
