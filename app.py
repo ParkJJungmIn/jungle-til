@@ -11,7 +11,7 @@ import sys
 app = Flask(__name__)
 
 client = MongoClient('localhost', 27017)
-db = client.dbjungle
+db = client.jungle7
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -31,7 +31,7 @@ app.json = CustomJSONProvider(app)
 
 @app.route("/")
 def head():
-    print(list(db.movies.find({'trashed': '1'}, {}).sort('like', -1)))
+    # print(list(db.movies.find({'trashed': '1'}, {}).sort('like', -1)))
     return render_template("index.html", number1 = 12, number2 = 34)
 
 @app.route("/about")
@@ -40,3 +40,10 @@ def second():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80, debug = True)
+
+
+@app.route("/main")
+def main():
+    db.jungle7
+
+    return render_template("")

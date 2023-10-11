@@ -6,7 +6,7 @@ from lxml import etree
 from bson import ObjectId
 
 client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
-# db = client.dbtil                      # 'dbjungle'라는 이름의 db를 만듭니다.
+db = client['jungle7']                      # 'dbjungle'라는 이름의 db를 만듭니다.
 
 
 def make_user():
@@ -43,7 +43,7 @@ def make_user():
     ]
 
 
-    db = client['jungle7']  # DB 이름 설정
+    # db = client['jungle7']  # DB 이름 설정
     collection = db['user']  # 콜렉션 이름 설정
     collection.insert_many(users_data)
 
@@ -83,12 +83,59 @@ def make_user():
     collection.insert_many(userpost_data)
 
 
+def select():
+    pipeline = [
+        {
+            "$addFields": {
+                "converted_date": {
+                    "$dateFromString": {
+                        "dateString": "$post_date",
+                        "format": "%Y-%m-%d"
+                    }
+                }
+            }
+        },
+        {
+            "$group": {
+                "_id": {
+                    "user_id": "$user_id",
+                    "year": { "$year": "$converted_date" },
+                    "month": { "$month": "$converted_date" }
+                },
+                "count": { "$sum": 1 }
+            }
+        },
+        {
+            "$lookup": {
+                "from": "user",  # 수정된 부분: 콜렉션 이름 변경
+                "localField": "_id.user_id",
+                "foreignField": "user_id",
+                "as": "user_info"
+            }
+        },
+        {
+            "$unwind": "$user_info"
+        },
+        {
+            "$sort": { "_id.user_id": 1, "_id.year": 1, "_id.month": 1 }
+        }
+    ]
+
+    results = list(db.userpost.aggregate(pipeline))  # 수정된 부분: 콜렉션 이름 변경
+
+    for result in results:
+        print(result)
+
+    
+
 
 if __name__ == '__main__':
     # # 기존의 movies 콜렉션을 삭제하기
     # db.movies.drop()
     # # 영화 사이트를 scraping 해서 db 에 채우기
     # insert_all()
-    db = client['jungle7']  # DB 이름 설정
-    db.jungle7.drop()
-    make_user()
+    # db = client['jungle7']  # DB 이름 설정
+    # db.jungle7.drop()
+    # make_user()
+    select()
+
