@@ -9,6 +9,19 @@
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
         crossorigin="anonymous">
 
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+        
+    <title>jungleTIL|로그인</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
     <!-- style -->
     <style type="text/css">
         * {
@@ -17,13 +30,13 @@
         }
 
         .wrap {
-            width: 1200px;
+            width: 80%;
             margin: auto;
         }
 
         .jumbotron{
             box-shadow: 1px 1px 5px;
-            width: 800px;
+            width: 70%;
             margin: auto;
             text-align: center;
         }
@@ -34,22 +47,19 @@
         }
 
         .btn{
-            width: 600px;
+            width: 70%;
             height: 50px;
             border: 1px green solid;
             background-color: #38d895ff;
         }
         
-        .goapply{
+        .white{
             background-color: white;
 
         }
+
         .labels{
             text-align: left;
-        }
-        .cover {
-            display: flex;
-            justify-content: space-between;
         }
 
         h1{
@@ -82,13 +92,44 @@
             text-decoration-line: none;
         }
 
-        .inputs{
-            width: 500px;
+    </style>
+
+    <script>
+        function goregister(){
+            location.href = '/register';
         }
 
-    </style> 
+        function login(){
+            var id = $("#loginID").val();
+            var password = $("#loginPassword").val();
 
-    <title>jungleTIL|로그인</title>
+            console.log(id)
+            console.log(password)
+
+            // AJAX를 사용하여 서버에 데이터 전송
+            $.ajax({
+                type: "POST", // 요청 방식 
+                url: "/login", // 서버 URL
+                data: {
+                        user_id_give: id,
+                        user_password_give: password,
+                },
+                success: function(response) {
+                    if (response["result"] == "success") {
+                        // 성공 시 jwt토큰 쿠키
+                        $.cookie('mytocken', response['token'])
+                        // 메인페이지로
+                        location.href = '/'
+                    } else {
+                        alert("아이디 혹은 비밀번호가 잘못 입력되었습니다. 다시 입력해주십시오.")
+                    }
+                }
+            })
+        }
+
+    </script>
+
+
 </head>
 <body>
     <div class = "wrap">
@@ -99,52 +140,18 @@
             <h2>로그인</h2>
             <form>
                 <div class="form-group labels">
-                    <label for="formGroupID">ID</label>
-                    <input type="text" class="form-control" id="formGroupID">
+                    <label for="loginID">ID</label>
+                    <input type="text" class="form-control" id="loginID">
                 </div>
                 <div class="form-group labels">
-                    <label for="formGroupPassword">PASSWORD</label>
-                    <input type="password" class="form-control" id="formGroupPassword">
+                    <label for="loginPassword">PASSWORD</label>
+                    <input type="password" class="form-control" id="loginPassword">
                 </div>
-                <div class="form-group btn">
+                <div class="form-group btn" onclick="login()">
                     <a class="loginbtn" href="#" role="button">로그인</a>
                 </div>
-                <div class="form-group btn goapply">
-                    <a class="goapplybtn" href="#" role="button">회원가입</a>
-                </div>
-            </form>
-        </div>
-        <!--  -->
-        <div class="jumbotron apply" style="display: none;">
-            <h2>회원가입</h2>
-            <form>
-                <div class="form-group row">
-                  <label for="inputID" class="col-sm-2 col-form-label">ID *</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputID">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="inputPassword" class="col-sm-2 col-form-label">PW *</label>
-                  <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword">
-                  </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputBirth" class="col-sm-2 col-form-label">생일</label>
-                    <div class="col-sm-10">
-                      <input type="date" max="9999-12-31" class="form-control" id="inputBirth" placeholder="YYYY.MM.DD">
-                    </div>
-                </div>
-                <div class="form-group adress labels">
-                    <div class="cover">
-                        <label for="formGroupWebadress">Tistory주소</label>
-                        <input class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" aria-label="...">
-                    </div>
-                    <input type="text" class="form-control" id="formGroupWebadress">
-                </div>
-                <div class="form-group btn">
-                    <a class="applybtn" href="#" role="button">회원가입</a>
+                <div class="form-group btn white" onclick="goregister()">
+                    <a class="goapplybtn" href="#"  role="button">회원가입</a>
                 </div>
             </form>
         </div>

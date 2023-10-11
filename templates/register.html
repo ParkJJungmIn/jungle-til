@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+        crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+        
+    <title>jungleTIL|로그인</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <!-- style -->
+    <style type="text/css">
+        * {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .wrap {
+            width: 80%;
+            margin: auto;
+        }
+
+        .jumbotron{
+            box-shadow: 1px 1px 5px;
+            width: 70%;
+            margin: auto;
+            text-align: center;
+        }
+
+
+        div>label{
+            text-align: left;
+        }
+
+        .btn{
+            width: 70%;
+            height: 50px;
+            border: 1px green solid;
+            background-color: #38d895ff;
+        }
+        
+        .white{
+            background-color: white;
+
+        }
+
+        .idcheck{
+            display: flex;
+        }
+
+        .small{
+            height: 91%;
+            width: 40%;
+        }
+
+        .small>a{
+            font-size: 18px;
+        }
+
+        .labels{
+            text-align: left;
+        }
+
+        .cover {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .radiodiv{
+            display: flex;
+            justify-content: space-around;
+        }
+
+        h1{
+            color: #38d895ff;
+            font-size: 60px;
+            padding: 20px;
+        }
+
+        h2{
+            font-size: 40px;
+            font-weight: bold;
+            padding-bottom: 10px;
+
+        }
+
+        span{
+            color: #000;
+        }
+
+        a{
+            color: black;
+            font-size: 20px;
+        }
+        a:hover{
+            color: black;
+            text-decoration-line: none;
+        }
+        a:active{
+            color: black;
+            text-decoration-line: none;
+        }
+
+        .inputs{
+            width: 500px;
+        }
+
+    </style>
+
+    <script>
+        loginpage = 'login.html';
+        idcheck = false;
+        genderselected = false;
+        var gender="N";
+
+        // 로그인페이지로 이동
+        function gologin(){
+            location.href = '/login';
+        }
+
+        // 체크된 라디오박스의 값을 gender에 저장
+        function changeGender(){
+            var radios = document.getElementsByName("genderOptions");
+            var selected = Array.from(radios).find(radio => radio.checked);
+            gender = selected.value;
+            genderselected=true;
+        }
+
+        //체크박스 여부에 따라 url 주소 입력창전환
+        function check_for_url(){
+            // 체크되면 보임
+            if($('#checkbox').is(':checked')){
+                $("#inputUrl").show();
+            }
+            // 아니면 안보임
+            else {
+                $("#inputUrl").hide();
+            }
+        }
+
+        // ID 중복성 검사
+        function isIDalreadyhave(){
+            var id = $("#inputID").val();
+
+            $.ajax({
+                type: "POST", // 요청 방식 
+                url: "/idcheck", // 서버 URL
+                data: {
+                        user_id_give: id
+                },
+                success: function(response) {
+                    if (response["result"] == "success") {
+                        //성공여부를 알려주고, 성공이라면 idcheck를 참으로 바꿈
+                        alert("사용 가능한 ID입니다.");
+                        idcheck = true
+                    } else {
+                        //성공여부를 알려주고, 실패라면 idcheck를 거짓으로 바꿈
+                        alert("아이디가 이미 존재합니다.")
+                        idcheck = false
+                    }
+                }
+            })
+        }
+
+        //
+        function register(){
+            var id = $("#inputID").val();
+            var password = $("#inputPassword").val();
+            var name = $("#inputName").val();
+            var birth = $("#inputBirth").val();
+
+            if(validation(id,password,name,gender)!=true){
+                return false;
+            }
+
+            // url을 적는 체크박스가 체크가 되있다면
+            if ($('#checkbox').is(':checked')){
+                var url = $("#inputWebadress").val();
+            }
+            // 안되어 있다면
+            else{
+                if(url==none) url ="";
+            }
+
+            //생일이입력되지 않았다면
+            if(birth==none) birth = "";
+
+            
+
+            // AJAX를 사용하여 서버에 데이터 전송
+            $.ajax({
+                type: "POST", // 요청 방식 
+                url: "/register", // 서버 URL
+                data: {
+                        user_id_register: id,
+                        user_password_register: password,
+                        user_name_register:name,
+                        user_gender_register:gender,
+                        user_birth_register: birth,
+                        user_url_register: url
+                },
+                success: function(response) {
+                    if (response["result"] == "success") {
+                        alert("회원가입에 성공하셨습니다.");
+                        // 성공 시 로그인페이지로
+                        gologin()
+                    } else {
+                        alert("잘못된 입력입니다. 다시 입력해주세요.")
+                    }
+                }
+            })
+        }
+
+        // 가입시 유효성 검사
+        function validation(id,password,name,gender){
+            // 정규식
+            // id, pw
+            var regIdPw = /^[a-zA-Z0-9]{4,12}$/;
+            // 이름
+            var regName = /^[가-힣a-zA-Z]{2,15}$/;
+
+            //아이디 확인
+            if(id == ""){
+                alert("아이디를 입력하세요.")
+                return false;
+            }
+            //아이디 영어 대소문자 확인
+            else if(!regIdPw.test(id)){
+                alert("4~12자 영문 대소문자, 숫자만 입력하세요.")
+                return false;
+            }
+            else if(idcheck != true){
+                alert("아이디를 중복확인해 주세요")
+                return false;
+            }
+
+            //비밀번호 확인
+            if(password == ""){
+                alert("비밀번호를 입력하세요.")
+                return false;
+            }
+            //비밀번호 영어 대소문자 확인
+            else if(!regIdPw.test(password)){
+                alert("4~12자 영문 대소문자, 숫자만 입력하세요.")
+                return false;
+            }
+            //비밀번호와 아이디 비교
+            else if(password == id){
+                alert("아이디와 동일한 비밀번호를 사용할 수 없습니다.")
+                return false;
+            }
+
+            //이름 확인 = 한글과 영어만 가능하도록
+            if(name == ""){
+                alert("이름을 입력하세요.")
+                return false;
+            }
+            else if(!regName.test(name)){
+                alert("최소 2글자 이상, 한글과 영어만 입력하세요.")
+                return false;
+            }
+
+            //성별 검사
+            if(genderselected != true || genderselected!="M" || genderselected!="W"){
+                alert("성별을 선택해 주세요")
+                return false;
+            }
+
+            return true
+
+        }
+    </script>
+
+
+</head>
+<body>
+    <div class = "wrap">
+        <div class = "title">
+            <h1>JUNG/E <span>TIL</span></h1>
+        </div>
+        <div class="jumbotron apply">
+            <h2>회원가입</h2>
+            <form>
+                <div class="form-group row">
+                  <label for="inputID" class="col-sm-2 col-form-label">ID *</label>
+                  <div class="col-sm-10 idcheck">
+                    <input type="text" class="form-control" id="inputID" placeholder="영문/숫자 4~12자">
+                    <div class="btn white small" onclick="isIDalreadyhave()">
+                      <a class="checkbtn" href="#" role="button">중복확인</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputPassword" class="col-sm-2 col-form-label">PW *</label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="영문/숫자 4~12자">
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputName" class="col-sm-2 col-form-label" >이름 *</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="genderOptions" class="col-sm-2 col-form-label">성별 *</label>
+                    <div class="col-sm-10 radiodiv" id="genderselect" onchange="changeGender()">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="genderOptions" id="genderOption1" value="M">
+                            <label class="form-check-label" for="genderOption1">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="genderOptions" id="genderOption2" value="F">
+                            <label class="form-check-label" for="genderOption2">Female</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputBirth" class="col-sm-2 col-form-label">생일</label>
+                    <div class="col-sm-10">
+                      <input type="date" max="9999-12-31" class="form-control" id="inputBirth" placeholder="YYYY.MM.DD">
+                    </div>
+                </div>
+                <div class="form-group adress labels">
+                    <div class="cover">
+                        <label for="inputUrl">Tistory주소</label>
+                        <input class="form-check-input position-static" type="checkbox" id="checkbox" value="option1" aria-label="..." onchange = "check_for_url()">
+                    </div>
+                    <input type="text" class="form-control" id="inputUrl" name="inputUrl" style="display: none;">
+                </div>
+                <div class="form-group btn" onclick="register()">
+                    <a class="applybtn" href="#" role="button">회원가입</a>
+                </div>
+                <div class="form-group btn white" onclick="gologin()">
+                    <a class="applybtn" href="#" role="button">로그인으로</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
