@@ -6,7 +6,7 @@ from lxml import etree
 
 import time
 
-client = MongoClient('mongodb://jungle:jungle@52.79.91.129/', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
+client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
 db = client.jungle7
 
 # userpost 기준으로 user_id의 최근 포스터들을 전부 가져온다
@@ -44,6 +44,10 @@ def posturl_exists(post_url):
 
 
 def save_posturl(post_dict):
+ 
+ db['userpost'].insert_many(post_dict)
+
+ db
  print('a')
 
 
@@ -78,6 +82,9 @@ def crawl_userpost(target_url , user_id ):
                   "post_date" : post_date,
                   "user_id" : user_id
                   }
+    
+
+
 
     
 

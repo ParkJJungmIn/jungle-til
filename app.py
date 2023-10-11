@@ -8,7 +8,8 @@ from pprint import pprint
 import json
 import sys
 
-app = Flask(__name__)
+from app_instance import app
+import login
 
 client = MongoClient('localhost', 27017)
 db = client.jungle7

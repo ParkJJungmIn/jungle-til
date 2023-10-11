@@ -12,7 +12,7 @@ import jwt
 import datetime
 import hashlib
 
-app = Flask(__name__)
+from app_instance import app
 
 client = MongoClient('localhost', 27017)
 db = client.jungle7
@@ -124,6 +124,3 @@ def refresh_token(token):
         newtoken = jwt.encode(newpayload, SECRET_KEY, algorithm='HS256')
         return newtoken
     
-    
-if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
