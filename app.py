@@ -44,6 +44,5 @@ if __name__ == "__main__":
 
 @app.route("/main")
 def main():
-    db.jungle7
 
-    return render_template("")
+    return render_template("main.html")
