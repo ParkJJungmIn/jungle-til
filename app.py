@@ -7,6 +7,7 @@ from flask.json.provider import JSONProvider
 from pprint import pprint
 import json
 import sys
+from datetime import datetime
 
 from app_instance import *
 import login
@@ -67,3 +68,166 @@ def chek_token():
         #if(check_token_fresh(user)):
         return True
     return False
+
+
+
+# API 1 : 포스트 목록 보여주기
+@app.route('/api/list', methods=['GET'])
+def show_post():
+    today_date = request.args.get('searchdate',datetime.today().strftime("%Y-%m-%d"))
+    search_user = request.args.get('searchuser','모두')
+#     today_date = '2023-10-11'
+#     print('today_date=', today_date)
+    if search_user == '모두':
+        posts = list(db.userpost.find({'post_date':today_date}))
+    else:
+        posts = list(db.userpost.find({'post_date':today_date,'user_id':search_user}))
+#     for r in posts:
+#          print(r)
+
+    post_url = [ p['post_url'] for p in posts]
+
+    pipeline = [
+        {"$match": {"post_url": {"$in": post_url}}},  # Filtering by post_url using $in operator
+        {"$group": {
+            "_id": "$post_url",
+            "count": {"$sum": 1},
+            "data": {"$first": "$$ROOT"}  # $$ROOT refers to the entire document
+        }},
+        {"$replaceRoot": {  # Replaces the root with a merged version of the original document and the count
+            "newRoot": {
+                "$mergeObjects": ["$data", {"cnt": "$count"}]
+            } 
+        }}
+    ]   
+
+    postfight = list(db.postfight.aggregate(pipeline))
+    postfight = { p['post_url'] : p['cnt']  for p in postfight}
+
+    print('11',postfight)
+
+    # SELECT *, count(*) as cnt FROM postfight WHERE post_date = '{$today_date}' GROUP BY post_url
+    return jsonify({'result': 'success', 'post_list': posts , 'fight' : postfight})
+    
+
+# API 2 : 회원목록 보여주기
+@app.route('/api/list/user', methods=['GET'])
+def show_user():
+
+    users = list(db.user.find({}))
+#     for r in users:
+#          print(r)
+
+    return jsonify({'result': 'success', 'user_list': users})
+
+# 랭킹 함수 : 게시물 개수별로 순위 랭킹하기
+def select(YearNMonth):
+
+#     year = str(datetime.now().year) if year is None else year
+#     month = (str(datetime.now().month) if month is None else month).zfill(2)
+
+#     post_date = '-'.join([year, month])
+    print('YearNMonth',YearNMonth)
+    pipeline = [
+        {
+            "$lookup": {
+                "from": "userpost",
+                "let": {"user_id": "$user_id"},
+                "pipeline": [
+                    {
+                        "$match": {
+                            "$expr": {
+                                "$and": [
+                                    {"$eq": ["$user_id", "$$user_id"]},
+                                    {"$regexMatch": {
+                                        "input": "$post_date",
+                                        "regex": f"^{YearNMonth}"
+                                    }}
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "$count": "cnt"
+                    }
+                ],
+                "as": "posts"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$posts",
+                "preserveNullAndEmptyArrays": True
+            }
+        }
+    ]
+
+    results = list(db.user.aggregate(pipeline))  # 수정된 부분: 콜렉션 이름 변경
+
+    results = [r for r in results if 'posts' in r]
+
+    results = sorted(results,key=lambda x: x['posts']['cnt'], reverse=True)
+#     print('results = ',results)
+    ranked_data = []
+    prev_cnt = None
+    rank = 0
+
+    for idx, r in enumerate(results):
+        cnt = r['posts']['cnt']
+        if cnt != prev_cnt:
+            rank = idx + 1
+
+        ranked_data.append({
+                "user_name": r['user_name'],
+                "user_id": r['user_id'],
+                "post_cnt": cnt,
+                "user_url": r['user_url'],
+                "rank": rank,
+            })
+
+        prev_cnt = cnt
+    print('ranked_data=',ranked_data)
+    return ranked_data
+
+# API 3 : 랭킹함수 사용해보기
+@app.route('/api/list/rank', methods=['GET'])
+def show_rank():
+    get_search_month = request.args.get('searchyearnmonth',datetime.today().strftime("%Y-%m"))
+
+    posts_rank = select(get_search_month)
+
+    return jsonify({'result': 'success', 'post_rank': posts_rank})
+
+
+@app.route('/api/fight', methods=['POST'])
+def insert_fight():
+
+    # Retrieve POST parameters
+    message = request.form.get('message')
+    post_url = request.form.get('post_url')
+    user = request.form.get('user')
+
+    # Insert the data into the 'postfight' collection
+    db.postfight.insert_one({
+        'message': message,
+        'post_url': post_url,
+        'user': user
+    })
+
+    print(message, post_url, user)
+
+    return jsonify({'result': 'success'})
+
+
+@app.route('/api/fight', methods=['GET'])
+def show_fight():
+
+    # Retrieve POST parameters
+    post_url = request.args.get('post_url')
+    
+
+    postfight_list = db.postfight.find({'post_url':post_url})
+
+    # print( list(postfight_list))
+
+    return jsonify({'result': 'success' , 'message' : list(postfight_list) })
