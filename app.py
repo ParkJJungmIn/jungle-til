@@ -44,4 +44,23 @@ if __name__ == "__main__":
 
 @app.route("/main")
 def main():
-    return render_template("main.html")
+    if chek_token():
+        return render_template("main.html")
+    return redirect("/login")
+    
+def chek_token():
+    #클라이언트에게서 토큰 가져오기 
+    token = request.cookies.get('Authorization')
+    
+    #토큰이 없다면 거짓반환
+    if(not token) : return False
+    
+    #토큰 디코딩을 위해 'Bearer%20' 제거 후 디코딩
+    token = token.replace('Bearer%20', '').strip()
+    cur_user = decode_token(token)
+    
+    #토큰에 저장된 유저이름이 DB에서 찾아진다면 참 반환
+    if (db.user.find_one({'user_id' : cur_user['sub']})):
+        #if(check_token_fresh(user)):
+        return True
+    return False
