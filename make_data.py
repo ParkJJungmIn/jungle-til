@@ -165,7 +165,7 @@ def select(year=None, month=None):
             })
         
         prev_cnt = cnt
-
+    print(ranked_data)
     return ranked_data
 
     
