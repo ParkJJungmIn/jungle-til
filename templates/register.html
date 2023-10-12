@@ -156,6 +156,18 @@
         function isIDalreadyhave(){
             var id = $("#inputID").val();
 
+            var regIdPw = /^[a-zA-Z0-9]{4,12}$/;
+            //아이디 확인
+            if(id == ""){
+                alert("아이디를 입력하세요.")
+                return false;
+            }
+            //아이디 영어 대소문자 확인
+            else if(!regIdPw.test(id)){
+                alert("아이디는 4~12자 영문 대소문자, 숫자만 입력 가능합니다.")
+                return false;
+            }
+            
             $.ajax({
                 type: "POST", // 요청 방식 
                 url: "/idcheck", // 서버 URL
@@ -182,24 +194,20 @@
             var password = $("#inputPassword").val();
             var name = $("#inputName").val();
             var birth = $("#inputBirth").val();
+            var url;
 
             if(validation(id,password,name,gender)!=true){
                 return false;
             }
 
-            // url을 적는 체크박스가 체크가 되있다면
+             // url을 적는 체크박스가 체크가 되있다면
             if ($('#checkbox').is(':checked')){
-                var url = $("#inputWebadress").val();
+                url = $("#inputWebadress").val();
             }
             // 안되어 있다면
             else{
-                if(url==none) url ="";
+                url ="";
             }
-
-            //생일이입력되지 않았다면
-            if(birth==none) birth = "";
-
-            
 
             // AJAX를 사용하여 서버에 데이터 전송
             $.ajax({
@@ -233,17 +241,7 @@
             // 이름
             var regName = /^[가-힣a-zA-Z]{2,15}$/;
 
-            //아이디 확인
-            if(id == ""){
-                alert("아이디를 입력하세요.")
-                return false;
-            }
-            //아이디 영어 대소문자 확인
-            else if(!regIdPw.test(id)){
-                alert("4~12자 영문 대소문자, 숫자만 입력하세요.")
-                return false;
-            }
-            else if(idcheck != true){
+            if(idcheck != true){
                 alert("아이디를 중복확인해 주세요")
                 return false;
             }
@@ -255,7 +253,7 @@
             }
             //비밀번호 영어 대소문자 확인
             else if(!regIdPw.test(password)){
-                alert("4~12자 영문 대소문자, 숫자만 입력하세요.")
+                alert("비밀번호는 4~12자 영문 대소문자, 숫자만 입력 가능합니다.")
                 return false;
             }
             //비밀번호와 아이디 비교
@@ -270,19 +268,20 @@
                 return false;
             }
             else if(!regName.test(name)){
-                alert("최소 2글자 이상, 한글과 영어만 입력하세요.")
+                alert("이름을 최소 2글자 이상, 한글과 영어만 입력하세요.")
                 return false;
             }
 
             //성별 검사
-            if(genderselected != true || genderselected!="M" || genderselected!="W"){
+            if(genderselected != true){
                 alert("성별을 선택해 주세요")
                 return false;
-            }
-
-            return true
-
+            }else if(gender != "M" && gender != "W"){
+                alert("올바르지 않은 성별입니다")
+                return false
+            }else return true
         }
+
     </script>
 
 
@@ -324,7 +323,7 @@
                             <label class="form-check-label" for="genderOption1">Male</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="genderOptions" id="genderOption2" value="F">
+                            <input class="form-check-input" type="radio" name="genderOptions" id="genderOption2" value="W">
                             <label class="form-check-label" for="genderOption2">Female</label>
                         </div>
                     </div>
