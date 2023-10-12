@@ -109,9 +109,6 @@ def select(year=None, month=None):
     month = (str(datetime.now().month) if month is None else month).zfill(2)
 
     post_date = '-'.join([year, month])
-
-    print(post_date)
-    
     pipeline = [
         {
             "$lookup": {
