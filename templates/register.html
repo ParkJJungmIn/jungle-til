@@ -30,7 +30,7 @@
         }
 
         .wrap {
-            width: 80%;
+            width: 70%;
             margin: auto;
         }
 
@@ -122,7 +122,6 @@
     </style>
 
     <script>
-        loginpage = 'login.html';
         idcheck = false;
         genderselected = false;
         var gender="N";
@@ -156,6 +155,8 @@
         function isIDalreadyhave(){
             var id = $("#inputID").val();
 
+            // 정규식
+            // id, pw a~z,A~Z, 0~9가 가능하고 길이 4~12
             var regIdPw = /^[a-zA-Z0-9]{4,12}$/;
             //아이디 확인
             if(id == ""){
@@ -209,6 +210,47 @@
                 url ="";
             }
 
+            var formdata = new FormData();
+            const imageInput = $("#inputimg")[0].files;
+
+            formdata.append( "imageInput" ,  imageInput[0]  )
+            formdata.append( "idInput", id)
+            formdata.append( "passwordInput", password)
+            formdata.append( "nameInput", name)
+            formdata.append( "genderInput", gender)
+            formdata.append( "birthInput", birth)
+            formdata.append( "urlInput", url)
+            
+            console.log(formdata)
+
+            $.ajax({
+                type: "POST", // 요청 방식 
+                url: "/register", // 서버 URL
+                data: formdata,
+                cache: false,
+                contentType: false,
+                processData: false,
+                async : false,
+                enctype: 'multipart/form-data',
+                success: function(response) {
+                    if (response["result"] == "success") {
+                        alert("회원가입에 성공하셨습니다.");
+                        // 성공 시 로그인페이지로
+                        gologin()
+                    } else {
+                        alert("잘못된 입력입니다. 다시 입력해주세요.")
+                    }
+                }
+            })
+            /**
+            var upload_URL = upload_imginput()
+            
+            if (upload_URL== false){
+                //기본값 설정필요
+                upload_URL =''
+            }
+            
+
             // AJAX를 사용하여 서버에 데이터 전송
             $.ajax({
                 type: "POST", // 요청 방식 
@@ -219,6 +261,7 @@
                         user_name_register:name,
                         user_gender_register:gender,
                         user_birth_register: birth,
+                        user_imgURL_register: upload_URL,
                         user_url_register: url
                 },
                 success: function(response) {
@@ -230,17 +273,47 @@
                         alert("잘못된 입력입니다. 다시 입력해주세요.")
                     }
                 }
+            })**/
+        }
+
+        
+        function upload_imginput(){
+            var formdata = new FormData();
+            const imageInput = $("#inputimg")[0].files;
+
+            if( imageInput.length < 1 ) {
+                return false
+            }
+
+            formdata.append( "imageInput" ,  imageInput[0]  )
+            $.ajax({
+                type: "POST", // 요청 방식 
+                url: "/register/imgupload", // 서버 URL
+                data: formdata,
+                cache: false,
+                contentType: false,
+                processData: false,
+                async : false,
+                enctype: 'multipart/form-data',
+                success: function(response) {
+                    // url리턴받으면 -> 이 URL를 회원가입 디비에 등록하는 곳에 같이 붙혀서 등록하기
+                    return response['upload_URL']
+                }
             })
+
+
+
         }
 
         // 가입시 유효성 검사
         function validation(id,password,name,gender){
             // 정규식
-            // id, pw
+            // id, pw a~z,A~Z, 0~9가 가능하고 길이 4~12
             var regIdPw = /^[a-zA-Z0-9]{4,12}$/;
-            // 이름
+            // 이름   가~힣, a~z, A~Z가 가능하고 길이 2~15
             var regName = /^[가-힣a-zA-Z]{2,15}$/;
 
+            //이름 중복확인 하였는지 여부
             if(idcheck != true){
                 alert("아이디를 중복확인해 주세요")
                 return false;
@@ -251,7 +324,7 @@
                 alert("비밀번호를 입력하세요.")
                 return false;
             }
-            //비밀번호 영어 대소문자 확인
+            //비밀번호 숫자, 영어 대소문자 확인
             else if(!regIdPw.test(password)){
                 alert("비밀번호는 4~12자 영문 대소문자, 숫자만 입력 가능합니다.")
                 return false;
@@ -262,7 +335,7 @@
                 return false;
             }
 
-            //이름 확인 = 한글과 영어만 가능하도록
+            //이름 한글과 영어 확인
             if(name == ""){
                 alert("이름을 입력하세요.")
                 return false;
@@ -281,7 +354,6 @@
                 return false
             }else return true
         }
-
     </script>
 
 
@@ -316,7 +388,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="genderOptions" class="col-sm-2 col-form-label">성별 *</label>
+                    <label class="col-sm-2 col-form-label">성별 *</label>
                     <div class="col-sm-10 radiodiv" id="genderselect" onchange="changeGender()">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="genderOptions" id="genderOption1" value="M">
@@ -332,6 +404,12 @@
                     <label for="inputBirth" class="col-sm-2 col-form-label">생일</label>
                     <div class="col-sm-10">
                       <input type="date" max="9999-12-31" class="form-control" id="inputBirth" placeholder="YYYY.MM.DD">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="inputimg">사진</label>
+                    <div class="col-sm-10">
+                        <input type="file" accept=".jpg,.png,.svg" class="form-control-file" id="inputimg">
                     </div>
                 </div>
                 <div class="form-group adress labels">
