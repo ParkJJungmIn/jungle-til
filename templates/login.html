@@ -33,7 +33,7 @@
         }
 
         .wrap {
-            width: 80%;
+            width: 70%;
             margin: auto;
         }
 
@@ -102,13 +102,11 @@
             location.href = '/register';
         }
 
+        //로그인
         function login(){
             var id = $("#loginID").val();
             var password = $("#loginPassword").val();
-
-            console.log(id)
-            console.log(password)
-
+            
             // AJAX를 사용하여 서버에 데이터 전송
             $.ajax({
                 type: "POST", // 요청 방식 
@@ -122,7 +120,7 @@
                         // 성공 시 jwt토큰 쿠키에 저장
                         $.cookie('Authorization',"Bearer "+response['access_token'])
                         // 메인페이지로
-                        location.href = '/main'
+                        //location.href = '/main'
                     } else {
                         alert("아이디 혹은 비밀번호가 잘못 입력되었습니다. 다시 입력해주십시오.")
                     }
