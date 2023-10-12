@@ -13,17 +13,16 @@ import datetime
 import hashlib
 
 from app_instance import app
+from mongo_setup import get_db
 
-client = MongoClient('localhost', 27017)
-db = client.jungle7
+db = get_db()
 
 #JWT 토큰을 만들기 위해 필요한 비밀문자열 - 아무거나 입력해도 된다
 #서버 내에만 저장되기에 이 서버 내에서만 인코딩 디코딩 할 수 있게 해준다
 SECRET_KEY = 'JUNGLE'
 
 @app.route('/login', methods=['GET'])
-def get_login():
-    return render_template('login.html')
+def get_login():    return render_template('login.html')
 
 @app.route('/register', methods=['GET'])
 def get_register():

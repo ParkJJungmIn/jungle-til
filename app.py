@@ -10,9 +10,8 @@ import sys
 
 from app_instance import app
 import login
-
-client = MongoClient('localhost', 27017)
-db = client.jungle7
+from mongo_setup import get_db
+db = get_db()
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -45,5 +44,4 @@ if __name__ == "__main__":
 
 @app.route("/main")
 def main():
-
     return render_template("main.html")

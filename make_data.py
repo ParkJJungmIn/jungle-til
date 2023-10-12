@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient           # pymongo를 임포트 하기(패키지 인스톨 먼저 해야겠죠?)
 from lxml import etree
 from bson import ObjectId
+from datetime import datetime
+
 
 client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
 db = client['jungle7']                      # 'dbjungle'라는 이름의 db를 만듭니다.
@@ -101,7 +103,15 @@ def make_user():
     collection.insert_many(userpost_data)
 
 
-def select():
+def select(year=None, month=None):
+    
+    year = str(datetime.now().year) if year is None else year
+    month = (str(datetime.now().month) if month is None else month).zfill(2)
+
+    post_date = '-'.join([year, month])
+
+    print(post_date)
+    
     pipeline = [
         {
             "$lookup": {
@@ -115,7 +125,7 @@ def select():
                                     {"$eq": ["$user_id", "$$user_id"]},
                                     {"$regexMatch": {
                                         "input": "$post_date",
-                                        "regex": "^2023-10"
+                                        "regex": f"^{post_date}"
                                     }}
                                 ]
                             }
