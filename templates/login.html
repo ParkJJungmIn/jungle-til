@@ -22,6 +22,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    
+
     <!-- style -->
     <style type="text/css">
         * {
@@ -116,16 +119,17 @@
                 },
                 success: function(response) {
                     if (response["result"] == "success") {
-                        // 성공 시 jwt토큰 쿠키
-                        $.cookie('mytocken', response['token'])
+                        // 성공 시 jwt토큰 쿠키에 저장
+                        $.cookie('Authorization',"Bearer "+response['access_token'])
                         // 메인페이지로
-                        location.href = '/'
+                        location.href = '/main'
                     } else {
                         alert("아이디 혹은 비밀번호가 잘못 입력되었습니다. 다시 입력해주십시오.")
                     }
                 }
             })
         }
+
 
     </script>
 
