@@ -6,10 +6,12 @@ from lxml import etree
 from bson import ObjectId
 from datetime import datetime
 
+from mongo_setup import get_db
 
-client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
-db = client['jungle7']                      # 'dbjungle'라는 이름의 db를 만듭니다.
+# client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
+# db = client['jungle7']                      # 'dbjungle'라는 이름의 db를 만듭니다.
 
+db = get_db()
 
 def make_user():
 
@@ -143,10 +145,31 @@ def select(year=None, month=None):
         }
     ]
 
-    results = list(db.user.aggregate(pipeline))  # 수정된 부분: 콜렉션 이름 변경
-    results
-    for result in results:
-        print(result)
+    results = list(db.user.aggregate(pipeline))  # 수정된 부분: 콜렉션 이름 변경\
+    results = sorted( results, key=lambda x: x['posts']['cnt'] , reverse=True)
+
+    ranked_data = []
+    prev_cnt = None
+    rank = 0
+
+    for idx, r in enumerate(results):
+        cnt = r['posts']['cnt']
+        if cnt != prev_cnt:
+            rank = idx + 1
+
+        ranked_data.append({
+                "user_name": r['user_name'],
+                "post_cnt": cnt,
+                "user_url": r['user_url'],
+                "rank": rank
+            })
+        
+        prev_cnt = cnt
+
+    return ranked_data
+
+    
+
 
     
 
