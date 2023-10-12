@@ -64,3 +64,11 @@ def chek_token():
         #if(check_token_fresh(user)):
         return True
     return False
+
+#로그아웃
+@app.route("/logout", methods=['POST'])
+def log_out():
+    # 제거할 토큰의 값을 가져온다
+    token = request.cookies.get('Authorization')
+    # 제거할 토큰의 값을 보낸다
+    return jsonify({'result': 'success', 'access_token' : token})
