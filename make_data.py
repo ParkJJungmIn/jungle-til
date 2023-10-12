@@ -147,7 +147,7 @@ def select(year=None, month=None):
 
     results = list(db.user.aggregate(pipeline))  # 수정된 부분: 콜렉션 이름 변경\
     results = sorted( results, key=lambda x: x['posts']['cnt'] , reverse=True)
-
+        
     ranked_data = []
     prev_cnt = None
     rank = 0
@@ -166,6 +166,7 @@ def select(year=None, month=None):
         
         prev_cnt = cnt
     print(ranked_data)
+
     return ranked_data
 
     
