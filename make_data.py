@@ -124,7 +124,7 @@ def select(year=None, month=None):
                                     {"$eq": ["$user_id", "$$user_id"]},
                                     {"$regexMatch": {
                                         "input": "$post_date",
-                                        "regex": f"^{post_date}"
+                                        "regex": f"^2023-11"
                                     }}
                                 ]
                             }
@@ -145,7 +145,8 @@ def select(year=None, month=None):
         }
     ]
 
-    results = list(db.user.aggregate(pipeline))  # 수정된 부분: 콜렉션 이름 변경\
+    results = list(db.user.aggregate(pipeline))  # 수정된 부분: 콜렉션 이름 변경
+    results = [r for r in results if 'posts' in r]
     results = sorted( results, key=lambda x: x['posts']['cnt'] , reverse=True)
         
     ranked_data = []
