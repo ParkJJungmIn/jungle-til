@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,77 +27,19 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.css'>
     <link rel="stylesheet" href="/static/swapping/css/swapping.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-    <style>
-        /* Left Modal Styles */
-.modal.left .modal-dialog {
-    position: absolute;
-    margin: auto;
-    width: 300px;
-    height: 100%;
-    -webkit-transform: translate3d(0%, 0, 0);
-    -ms-transform: translate3d(0%, 0, 0);
-    -o-transform: translate3d(0%, 0, 0);
-    transform: translate3d(0%, 0, 0);
-}
-
-.modal.left .modal-content {
-    height: 100%;
-    overflow-y: auto;
-}
-
-.modal.left .modal-body {
-    padding: 15px 15px 80px;
-}
-
-/*Left Modal Animation Styles*/
-.modal.left.fade .modal-dialog {
-    left: -300px;
-    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
-    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
-    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
-    transition: opacity 0.3s linear, left 0.3s ease-out;
-}
-
-.modal.left.fade.show .modal-dialog {
-    left: 0;
-    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
-    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
-    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
-    transition: opacity 0.3s linear, left 0.3s ease-out;
-}
-
-    </style>
 </head>
 <body>
 <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div class="navbar-menu-wrapper d-flex align-items-center" style="width: 100%;padding-left: 0px;padding-right: 0px;">
-            <div style="width: 33%;"></div>
-            <div class="d-flex align-items-center justify-content-center" style="width: 33%;"><img src="../static/img/jungle_til.png" alt="page logo" style="height: 50px;"></div>
-            <div class="d-flex align-items-center justify-content-end" style="width: 33%;">
-                <span style="margin-right: 15px;" id="user_state">사용자 명</span>
-                    <span id="unreadMessagesIcon" style="cursor: pointer; position: relative; margin-right: 15px;">
-                        <i class="fas fa-envelope"></i>
-                        <span id="unreadCount" style="position: absolute; top: -5px; right: -10px; background-color: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;">0</span>
-                    </span>
-                <button class="btn btn-primary">로그아웃</button>
-            </div>
+
+        <div class="navbar-menu-wrapper col-lg-12 col-12 d-flex align-items-center justify-content-end">
+            <span style="margin-right: 15px;">사용자 명</span>
+            <button class="btn btn-primary">로그아웃</button>
+            <!--        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">-->
+            <!--          <span class="icon-menu"></span>-->
+            <!--        </button>-->
         </div>
-
-
-<!--        <div class="navbar-menu-wrapper col-lg-4"></div>-->
-<!--        <div class="logo navbar-menu-wrapper col-lg-4 d-flex align-items-center justify-content-end">-->
-<!--            <img src="../static/img/jungle_til.png" alt="page logo" style="height: 50px;">-->
-<!--        </div>-->
-<!--&lt;!&ndash;         d-flex align-items-center justify-content-end &ndash;&gt;-->
-<!--        <div class="navbar-menu-wrapper col-sm-4 d-flex align-items-center justify-content-end" style="padding-left: 0px; padding-right: 15px;">-->
-<!--            <span style="margin-right: 15px;">사용자 명</span>-->
-<!--            <button class="btn btn-primary">로그아웃</button>-->
-<!--        </div>-->
     </nav>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
@@ -107,8 +50,7 @@
                 <div class="row">
                     <div class="col grid-margin">
                         <div class="row">
-                            <div class="col col-xl-4"></div>
-                            <div class="col col-xl-4" style="display: flex; justify-content: center;align-items: center;">
+                            <div class="col col-xl-8 mb-4 mb-xl-0" style="display: flex; justify-content: center;">
                                 <h3 class="font-weight-bold">기간별 포스팅 랭킹</h3>
                             </div>
                             <div class="col col-xl-4">
@@ -125,7 +67,7 @@
                 <div class="row">
                     <div class="col-md-12 grid-margin stretch-card" >
                         <div class="card tale-bg" >
-                            <div class="card-people mt-auto" style="padding-top: 40px;">
+                            <div class="card-people mt-auto">
                                 <div class="wrapper">
 
                                     <section class="module-team">
@@ -164,10 +106,10 @@
                 <div class="row">
                     <div class="col-md-12 grid-margin">
                         <div class="row">
-                            <div class="col-12 mb-4 mb-xl-0" style="display: flex; justify-content: center;">
+                            <div class="col-12 col-xl-8 mb-4 mb-xl-0" style="display: flex; justify-content: center;">
                                 <h3 class="font-weight-bold">이날의 포스팅</h3>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 col-xl-4">
                                 <div class="justify-content-end d-flex">
                                     <div style="display: flex;">
                                         <label style="width: 90px; display: flex; align-items: center; justify-content: center; margin: 0px;">작성일</label>
@@ -199,7 +141,7 @@
                             <!--                                검색결과 표출?-->
                             <!--                            </p>-->
                             <div class="table-responsive">
-                                <table id="PostTable" class="table table-hover" style="table-layout: fixed;">
+                                <table id="PostTable" class="table table-hover">
                                 </table>
                             </div>
                         </div>
@@ -255,75 +197,6 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js'></script>
 
 <script>
-
-
-    function fighting_modal(post_url){
-        $("#fightingModal").modal('show');
-        $("#fightingModal").attr('post_url', post_url)
-    }
-
-    function submitSupport() {
-        let message = $("#supportMessage").val();
-
-        if (!message) {
-            alert("메시지를 입력해주세요!");
-            return;
-        }
-        
-        post_url = $("#fightingModal").attr('post_url')
-        $.ajax({
-            type: "POST",
-            url: "/api/fight",
-            data: {'message': message, 'post_url':post_url , 'user' : 'test1' },
-            success: function(response) {
-                
-            },
-        })
-        // 여기에 응원 메시지를 처리하는 로직을 추가할 수 있습니다.
-        console.log("응원 메시지:", message);
-
-        // 모달 닫기
-        $("#fightingModal").modal('hide');
-    }
-
-    function showSupportMessages(post_url) {
-        $.ajax({
-            type: "GET",
-            url: "/api/fight",
-            data: {'post_url': post_url},
-            success: function(response) {
-                if (response['result'] != 'success') {
-                    alert('응원 메시지를 가져오는 데 실패했습니다!')
-                    return;
-                }
-                
-                let messages = response['message'];
-                let messagesList = $('#supportMessagesList');
-                messagesList.empty(); // 기존 리스트 삭제
-
-                for(let message of messages) {
-                    let cardTemplate = `
-                    <div class="card mb-2">
-                        <div class="card-header">
-                            <strong>${message['user']}</strong>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">${message['message']}</p>
-                        </div>
-                    </div>`;
-                    messagesList.append(cardTemplate);
-                }
-
-                // 모달을 보여줍니다.
-                $("#supportMessagesModal").modal('show');
-            },
-        });
-    }
-
-    
-
-
-
     ////////스와핑
     var team;
     var swiperWrapper = document.querySelector('.swiper-wrapper');
@@ -362,37 +235,54 @@
     });
 
 
+    function fighting_modal(post_url){
+        $("#fightingModal").modal('show');
+    }
+
+    function submitSupport() {
+        let message = $("#supportMessage").val();
+
+        if (!message) {
+            alert("메시지를 입력해주세요!");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/fight",
+            data: {'message': message, 'post_url':SearchUser , 'user' : 'test1' },
+            success: function(response) {
+                
+            },
+        })
+        // 여기에 응원 메시지를 처리하는 로직을 추가할 수 있습니다.
+        console.log("응원 메시지:", message);
+
+        // 모달 닫기
+        $("#fightingModal").modal('hide');
+    }
+    
+
     function append_html(ID,text){ //붙여넣을 테이블 또는 select id
         $("#"+ID).empty();
         $("#"+ID).append(text);
     }
 
-    function make_table(Data, fight){
+    function make_table(Data){
 
-
-        console.log(fight)
-        var text=`<thead><tr><th style="width: 29%;">제목</th><th style="width: 30%;">링크</th>
-                <th style="width: 10%;">작성자 ID</th><th style="width: 10%;">작성일</th> <th>응원하기</th> <th>펼치기</th>  </tr></thead>`;
+        var text=`<thead><tr><th>post_title</th><th>post_url</th><th>user_id</th><th>post_date</th> <th>응원하기</th> <th>응원펼치기</th>  </tr></thead>`;
         if(Data[0]=='undefined' | Data.length==0){
-            text+="<tbody><tr><td>데이터 없음</td></tr></tbody>";
+            text+="<tbody>데이터 없음</tbody>";
         }else{
             text+=`<tbody>`;
             for(var i=0;i<Data.length;i++){
                 text+=`<tr>`;
-                text+=`<td style="overflow:hidden; white-space : nowrap;text-overflow: ellipsis;">${Data[i]['post_title']}</td>`;
-                text+=`<td style="overflow:hidden; white-space : nowrap;text-overflow: ellipsis;"><a href="${Data[i]['post_url']}" target="_blank">${Data[i]['post_url']}</a></td>`;
-                text+=`<td style="overflow:hidden; white-space : nowrap;text-overflow: ellipsis;">${Data[i]['user_id']}</td>`;
-                text+=`<td style="overflow:hidden; white-space : nowrap;text-overflow: ellipsis;">${Data[i]['post_date']}</td>`;
-                text += `<td> 
-                            <button class="btn btn-outline-primary" onclick="fighting_modal('${Data[i]['post_url']}')" style="padding:10px">
-                                <i class="fas fa-heart"></i> 응원!
-                            </button>
-                        </td>`;
-                text += `<td> 
-                            <button class="btn btn-outline-info" onclick="showSupportMessages('${Data[i]['post_url']}')" style="padding:10px">
-                                <i class="fas fa-eye"></i> 펼치기!(${fight[Data[i]['post_url']] ?? '0'})
-                            </button>
-                        </td>`;
+                text+=`<td>${Data[i]['post_title']}</td>`;
+                text+=`<td>${Data[i]['post_url']}</td>`;
+                text+=`<td>${Data[i]['user_id']}</td>`;
+                text+=`<td>${Data[i]['post_date']}</td>`;
+                text+=`<td> <button onclick=" fighting_modal('${Data[i]['post_url']}')" >응원하기</button> </td>`;
+                text+=`<td> <button >펼치기</button> </td>`;
                 text+=`</tr>`;
             }
             text+=`</tbody>`;
@@ -431,9 +321,8 @@
                 // post_title: '[Python] @dataclass로 파이썬 클래스 마스터하기',
                 // post_url: 'https://datasciencebeehive.tistory.com/4',
                 // user_id: 'test2', post_date: '2023-10-12'}
-                let fight = response['fight']
 
-                let text = make_table(posts, fight);
+                let text = make_table(posts);
                 // console.log('text='+text);
                 append_html("PostTable",text);
             },
@@ -529,7 +418,7 @@
                 //[{'user_name': '박정민', 'user_id': 'test1', 'post_cnt': 4, 'user_url': 'https://park-dev-diary.tistory.com/', 'rank': 1},
                 // {'user_name': '전상하', 'user_id': 'test2', 'post_cnt': 3, 'user_url': 'https://study4silver.tistory.com/', 'rank': 2},
                 // {'user_name': '조현지', 'user_id': 'test3', 'post_cnt': 1, 'user_url': 'https://dev-dobim.tistory.com/', 'rank': 3}]
-                arr.push({rank:Data[i]['rank'],name:Data[i]['user_name'],id:Data[i]['user_id'],post_cnt:Data[i]['post_cnt'],photo:"",website:Data[i]['user_url'],})
+                arr.push({rank:Data[i]['rank'],name:Data[i]['user_name'],id:Data[i]['user_id'],post_cnt:Data[i]['post_cnt'],photo:"/static/img/default.jpg",website:Data[i]['user_url'],})
             }
             console.log('arr==='+JSON.stringify(arr));
         }
@@ -563,23 +452,6 @@
     /* Function to populate the team members */
     function addTeam() {
         swiperWrapper.empty();
-        if(team=='' | team==undefined){
-            var template = `<div class="swiper-slide" style="width: 280px;margin-left: 40px;">
-                <div class="card">
-
-                    <i class="fas fa-solid fa-xmark fa-beat fa-2xl" style="color: darkred;height: 60px;"></i>
-
-                    <article class="text">
-                        <p style="margin-top: 10px;"></p>
-                        <p class="name">작성된 게시물이 없습니다</p>
-                    </article>
-
-
-                    </div>
-                </div>`
-            swiperWrapper.append(template);
-            return
-        }
         for (let i = 0; i < team.length; i++) {
 
             /* Variables for the team */
@@ -600,11 +472,11 @@
 <!--                    <span class="more"></span>-->
                     <figure class="photo"><img src="${photo}"></figure>
                         <article class="text">
-                            <p style="margin-top: 10px;"></p>
-                            <p class="name">${rank}위</p>
+                            <p style="margin-top:10px;"></p>
+                            <p class="name">${rank} 위</p>
                             <p class="name">${name}</p>
                             <p class="role">${id}</p>
-                            <p class="role">게시물 수 : ${post_cnt}</p>
+                            <p class="role">${post_cnt}개 작성</p>
 
                         </article>
 
@@ -624,41 +496,9 @@
     };
 
 
-
-    $("#unreadMessagesIcon").on("click", function() {
-            // 여기서 AJAX를 이용해 읽지 않은 메시지를 가져올 수 있습니다.
-            // 예시로 임의의 메시지 목록을 만들겠습니다.
-            let messages = [
-                {id: 1, content: "첫 번째 메시지"},
-                {id: 2, content: "두 번째 메시지"}
-            ];
-
-            // 메시지 목록을 사이드바에 추가
-            let messagesList = $('#unreadMessagesList');
-            messagesList.empty();
-
-            for(let message of messages) {
-                messagesList.append(`
-                    <li>
-                        ${message['content']}
-                        <button class="btn btn-sm btn-primary" onclick="markAsRead(${message['id']})">읽음</button>
-                    </li>
-                `);
-            }
-
-            // 사이드바를 보여줍니다.
-            $("#messageSidebar").modal('show');
-        });
-
-    function markAsRead(messageId) {
-        // 여기서 해당 메시지를 읽음 처리하는 로직을 추가할 수 있습니다.
-        console.log("메시지 읽음 처리:", messageId);
-
-        // 예시로 해당 메시지를 목록에서 삭제합니다.
-        $(`#message${messageId}`).remove();
-    }
-
 </script>
+
+
 
 
 <!-- The Modal -->
@@ -687,47 +527,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Support Messages Modal -->
-<div class="modal" id="supportMessagesModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">응원 메시지 리스트</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            
-            <!-- Modal body -->
-            <div class="modal-body">
-                <!-- Here the support messages will be appended -->
-                <ul id="supportMessagesList"></ul>
-            </div>
-            
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- 페이지의 하단 부분에 추가 -->
-<div class="modal left fade" id="messageSidebar" tabindex="-1" role="dialog" aria-labelledby="messageSidebarLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="messageSidebarLabel">읽지 않은 메시지</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <ul id="unreadMessagesList"></ul>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 </body>
 

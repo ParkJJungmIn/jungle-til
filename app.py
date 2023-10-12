@@ -2,13 +2,14 @@ from bson import ObjectId
 from pymongo import MongoClient
 import requests
 from lxml import etree
-from flask import Flask, render_template, jsonify, request, render_template_string
+from flask import Flask, render_template, jsonify, request, render_template_string, redirect
 from flask.json.provider import JSONProvider
 from pprint import pprint
 import json
 import sys
+from datetime import datetime
 
-from app_instance import app
+from app_instance import *
 import login
 from mongo_setup import get_db
 db = get_db()
@@ -44,8 +45,11 @@ if __name__ == "__main__":
 
 @app.route("/main")
 def main():
+
     if chek_token():
-        return render_template("main.html")
+
+        users = list(db.user.find())
+        return render_template("main.html", user_list=users)
     return redirect("/login")
     
 def chek_token():
@@ -64,11 +68,3 @@ def chek_token():
         #if(check_token_fresh(user)):
         return True
     return False
-
-#로그아웃
-@app.route("/logout", methods=['POST'])
-def log_out():
-    # 제거할 토큰의 값을 가져온다
-    token = request.cookies.get('Authorization')
-    # 제거할 토큰의 값을 보낸다
-    return jsonify({'result': 'success', 'access_token' : token})

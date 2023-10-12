@@ -266,11 +266,11 @@ body {
     }
 }
 .wrapper .module-team .team .team-cards .swiper-container .swiper-slide {
-    background-color: white;
+    
     width: 280px !important;
     height: 320px;
     border-radius: 4px;
-    box-shadow: inset 0px 0px 0px 1px #EDEEF4;
+    /* box-shadow: inset 0px 0px 0px 1px #EDEEF4; */
     position: relative;
     transition: all 0.4s ease;
 }
@@ -397,7 +397,7 @@ body {
 .wrapper .module-team .team .team-cards .swiper-container .swiper-slide .card .text .name {
     font-size: 20px;
     color: #6F7073;
-    font-weight: 300;
+    /* font-weight: 2; */
 }
 .wrapper .module-team .team .team-cards .swiper-container .swiper-slide .card .text .role {
     font-size: 14px;
