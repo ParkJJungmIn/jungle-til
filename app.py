@@ -207,14 +207,20 @@ def insert_fight():
     post_url = request.form.get('post_url')
     user = request.form.get('user')
 
+    user_id =  db.userpost.find_one({'post_url':post_url})['user_id']
+
+
+
     # Insert the data into the 'postfight' collection
     db.postfight.insert_one({
         'message': message,
         'post_url': post_url,
-        'user': user
+        'user': user,
+        'read' : 'N',
+        'user_id' : user_id
     })
 
-    print(message, post_url, user)
+    print(message, post_url, user, user_id)
 
     return jsonify({'result': 'success'})
 
@@ -224,10 +230,19 @@ def show_fight():
 
     # Retrieve POST parameters
     post_url = request.args.get('post_url')
-    
+
 
     postfight_list = db.postfight.find({'post_url':post_url})
 
     # print( list(postfight_list))
 
     return jsonify({'result': 'success' , 'message' : list(postfight_list) })
+
+
+#안읽은 응원메시지 찾기
+
+@app.route('/api/not_read')
+def check_read():
+
+    postfight_list = db.postfight.find({'user': 'test_1'})
+    
