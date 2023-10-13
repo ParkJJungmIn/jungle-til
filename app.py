@@ -33,23 +33,20 @@ app.json = CustomJSONProvider(app)
 @app.route("/")
 def head():
     # print(list(db.movies.find({'trashed': '1'}, {}).sort('like', -1)))
-    return render_template("index.html", number1 = 12, number2 = 34)
+    return redirect('/login')
 
 @app.route("/about")
 def second():
     return render_template("about.html", hazirlayan = "Feyzullah SARI")
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80, debug = True)
-
 
 @app.route("/main")
 def main():
-
-    if chek_token():
-
+    user_id = None
+    if  user := chek_token() :
         users = list(db.user.find())
-        return render_template("main.html", user_list=users)
+        print('ggg' , user)
+        return render_template("main.html", user_list=users , user=user)
     return redirect("/login")
     
 def chek_token():
@@ -62,11 +59,11 @@ def chek_token():
     #토큰 디코딩을 위해 'Bearer%20' 제거 후 디코딩
     token = token.replace('Bearer%20', '').strip()
     cur_user = decode_token(token)
-    
+    user = None
     #토큰에 저장된 유저이름이 DB에서 찾아진다면 참 반환
-    if (db.user.find_one({'user_id' : cur_user['sub']})):
+    if (user:= db.user.find_one({'user_id' : cur_user['sub']})):
         #if(check_token_fresh(user)):
-        return True
+        return user
     return False
 
 
@@ -172,16 +169,19 @@ def select(YearNMonth):
     prev_cnt = None
     rank = 0
 
+    print(results)
+
     for idx, r in enumerate(results):
         cnt = r['posts']['cnt']
         if cnt != prev_cnt:
             rank = idx + 1
-
+        print('yqyq',  r['user_img_doc']['img_data'])
         ranked_data.append({
                 "user_name": r['user_name'],
                 "user_id": r['user_id'],
                 "post_cnt": cnt,
                 "user_url": r['user_url'],
+                "user_img": "./static/img/default.jpg" if r.get('user_img_doc') is None or r['user_img_doc'].get('img_data') is None else r['user_img_doc']['img_data'] ,
                 "rank": rank,
             })
 
@@ -243,6 +243,19 @@ def show_fight():
 
 @app.route('/api/not_read')
 def check_read():
-
-    postfight_list = db.postfight.find({'user': 'test_1'})
+    user_id = request.args.get('user_id')
+    postfight_list = db.postfight.find({'user_id': user_id, 'read' : 'N' } )
     
+    return jsonify({'result': 'success' , 'message' : list(postfight_list) })
+
+@app.route('/api/read')
+def update_read():
+    id = request.args.get('id')
+    print(id)
+    result = db.postfight.update_one({'_id': ObjectId(id)}, {'$set': {'read': 'Y'}})
+
+    return jsonify({'result': 'success'})
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug = True)

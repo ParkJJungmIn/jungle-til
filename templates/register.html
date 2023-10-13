@@ -195,7 +195,7 @@
             var password = $("#inputPassword").val();
             var name = $("#inputName").val();
             var birth = $("#inputBirth").val();
-            var url;
+            var url = "";
 
             if(validation(id,password,name,gender)!=true){
                 return false;
@@ -203,11 +203,7 @@
 
              // url을 적는 체크박스가 체크가 되있다면
             if ($('#checkbox').is(':checked')){
-                url = $("#inputWebadress").val();
-            }
-            // 안되어 있다면
-            else{
-                url ="";
+                url = $("#inputUrl").val();
             }
 
             var formdata = new FormData();
@@ -369,7 +365,7 @@
                 <div class="form-group row">
                   <label for="inputID" class="col-sm-2 col-form-label">ID *</label>
                   <div class="col-sm-10 idcheck">
-                    <input type="text" class="form-control" id="inputID" placeholder="영문/숫자 4~12자">
+                    <input type="text" class="form-control" id="inputID" placeholder="영문/숫자 4~12자" autocomplete="off">
                     <div class="btn white small" onclick="isIDalreadyhave()">
                       <a class="checkbtn" href="#" role="button">중복확인</a>
                     </div>
@@ -384,7 +380,7 @@
                 <div class="form-group row">
                     <label for="inputName" class="col-sm-2 col-form-label" >이름 *</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName">
+                      <input type="text" class="form-control" id="inputName" autocomplete="off">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -417,7 +413,7 @@
                         <label for="inputUrl">Tistory주소</label>
                         <input class="form-check-input position-static" type="checkbox" id="checkbox" value="option1" aria-label="..." onchange = "check_for_url()">
                     </div>
-                    <input type="text" class="form-control" id="inputUrl" name="inputUrl" style="display: none;">
+                    <input type="text" class="form-control" id="inputUrl" name="inputUrl" style="display: none;" autocomplete="off">
                 </div>
                 <div class="form-group btn" onclick="register()">
                     <a class="applybtn" href="#" role="button">회원가입</a>

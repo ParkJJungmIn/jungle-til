@@ -182,8 +182,9 @@ if __name__ == '__main__':
     # # 영화 사이트를 scraping 해서 db 에 채우기
     # insert_all()
     # db = client['jungle7']  # DB 이름 설정
-    # db.user.drop()
-    # db.userpost.drop()
+    db.user.drop()
+    db.userpost.drop()
+    db.postfight.drop()
     # make_user()
-    select()
+    # select()
 

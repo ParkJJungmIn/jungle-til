@@ -20,8 +20,8 @@ def fixed_url(url):
 
 # user_lastpost의 default를 1로 해놓는 것
 def start_crawl():
-    # user_list = [db.user.find() ]
-    user_list = [db.user.find_one({"user_id":"test1"})]
+    user_list = db.user.find()
+    # user_list = [db.user.find_one({"user_id":"test1"})]
 
     for user_row in user_list:
         missing_point = 0

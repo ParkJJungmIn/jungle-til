@@ -14,6 +14,7 @@ from werkzeug.utils import secure_filename
 
 from app_instance import *
 from mongo_setup import get_db, get_secret_key
+import os 
 
 db = get_db()
 
@@ -57,6 +58,7 @@ def register_user():
         #이미지 저장을 위해 파일이름, 확장자를 알아내고, 경로를 설정한다
         filename = secure_filename(input_img_receive.filename)
         extension = filename.split(".")[-1]
+
         file_path = f"./static/profiles/{user_id_receive}.{extension}"
 
         #이미지 저장
@@ -109,7 +111,7 @@ def log_in():
     checker = db.user.find_one({"user_id":id_receive})
     
     #DB에서 조회된 값이 있다면 비밀번호 확인
-    if (checker['user_password'] == password_encrypted):
+    if (checker.get('user_password')== password_encrypted):
         # JWT 토큰에는, payload와 시크릿키가 필요
         # 시크릿키가 있어야 토큰을 디코딩하여 payload 값을 확인 할 수 있음
         # 아래에선 id와 exp를 담았습니다. 즉, JWT 토큰을 풀면 유저ID 값을 알 수 있습니다.

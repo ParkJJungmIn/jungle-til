@@ -78,12 +78,12 @@
             <div style="width: 33%;"></div>
             <div class="d-flex align-items-center justify-content-center" style="width: 33%;"><img src="../static/img/jungle_til.png" alt="page logo" style="height: 50px;"></div>
             <div class="d-flex align-items-center justify-content-end" style="width: 33%;">
-                <span style="margin-right: 15px;" id="user_state">사용자 명</span>
+                <span style="margin-right: 15px;" id="user_state" user_id="{{user.user_id}}">{{user.user_name}} 님</span>
                     <span id="unreadMessagesIcon" style="cursor: pointer; position: relative; margin-right: 15px;">
                         <i class="fas fa-envelope"></i>
                         <span id="unreadCount" style="position: absolute; top: -5px; right: -10px; background-color: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;">0</span>
                     </span>
-                <button class="btn btn-primary">로그아웃</button>
+                <button class="btn btn-primary" onclick="logout()">로그아웃</button>
             </div>
         </div>
 
@@ -256,6 +256,20 @@
 
 <script>
 
+    user_id = $('#user_state').attr('user_id')
+
+        function logout(){
+            $.ajax({
+                type: "POST", // 요청 방식
+                url: "/logout", // 서버 URL
+                data: { },//데이터 필요없음
+                success: function(response) {
+                    // ; 앞까지 해당하는 이름을 가진 쿠키의 max-age(유효기간)를 0으로 만들어 삭제되게 함
+                    document.cookie = "Authorization="+response['access_token']+"; max-age=0";
+                    location.href = '/login';
+                }
+            })
+        }
 
     function fighting_modal(post_url){
         $("#fightingModal").modal('show');
@@ -274,7 +288,7 @@
         $.ajax({
             type: "POST",
             url: "/api/fight",
-            data: {'message': message, 'post_url':post_url , 'user' : 'test1' },
+            data: {'message': message, 'post_url':post_url , 'user' : user_id },
             success: function(response) {
                 
             },
@@ -529,7 +543,7 @@
                 //[{'user_name': '박정민', 'user_id': 'test1', 'post_cnt': 4, 'user_url': 'https://park-dev-diary.tistory.com/', 'rank': 1},
                 // {'user_name': '전상하', 'user_id': 'test2', 'post_cnt': 3, 'user_url': 'https://study4silver.tistory.com/', 'rank': 2},
                 // {'user_name': '조현지', 'user_id': 'test3', 'post_cnt': 1, 'user_url': 'https://dev-dobim.tistory.com/', 'rank': 3}]
-                arr.push({rank:Data[i]['rank'],name:Data[i]['user_name'],id:Data[i]['user_id'],post_cnt:Data[i]['post_cnt'],photo:"",website:Data[i]['user_url'],})
+                arr.push({rank:Data[i]['rank'],name:Data[i]['user_name'],id:Data[i]['user_id'],post_cnt:Data[i]['post_cnt'],photo:Data[i]['user_img'],website:Data[i]['user_url'],})
             }
             console.log('arr==='+JSON.stringify(arr));
         }
@@ -624,14 +638,43 @@
     };
 
 
+    function read_count(){
+        $.ajax({
+                    type: "GET",
+                    url: "/api/not_read",
+                    async : false,
+                    data: {'user_id': user_id},
+                    success: function(response) {
+                        messages = response['message']
+                        $('#unreadCount').text(messages.length)
+                    },
+                 })
+    }
+
+    read_count()
+
 
     $("#unreadMessagesIcon").on("click", function() {
             // 여기서 AJAX를 이용해 읽지 않은 메시지를 가져올 수 있습니다.
             // 예시로 임의의 메시지 목록을 만들겠습니다.
-            let messages = [
-                {id: 1, content: "첫 번째 메시지"},
-                {id: 2, content: "두 번째 메시지"}
-            ];
+                messages = []
+
+                $.ajax({
+                    type: "GET",
+                    url: "/api/not_read",
+                    async : false,
+                    data: {'user_id': user_id},
+                    success: function(response) {
+                        messages = response['message']
+                    },
+                 })
+
+
+
+            // let messages = [
+            //     {id: 1, content: "첫 번째 메시지"},
+            //     {id: 2, content: "두 번째 메시지"}
+            // ];
 
             // 메시지 목록을 사이드바에 추가
             let messagesList = $('#unreadMessagesList');
@@ -639,9 +682,9 @@
 
             for(let message of messages) {
                 messagesList.append(`
-                    <li>
-                        ${message['content']}
-                        <button class="btn btn-sm btn-primary" onclick="markAsRead(${message['id']})">읽음</button>
+                    <li id='message${message['_id']}'>
+                        ${message['message']}
+                        <button class="btn btn-sm btn-primary" onclick="markAsRead('${message['_id']}')">읽음</button>
                     </li>
                 `);
             }
@@ -651,11 +694,24 @@
         });
 
     function markAsRead(messageId) {
+
+        $.ajax({
+                    type: "GET",
+                    url: "/api/read",
+                    async : false,
+                    data: {'id': messageId},
+                    success: function(response) {
+                        messages = response['message']
+                    },
+                 })
+
+
+
         // 여기서 해당 메시지를 읽음 처리하는 로직을 추가할 수 있습니다.
         console.log("메시지 읽음 처리:", messageId);
-
         // 예시로 해당 메시지를 목록에서 삭제합니다.
         $(`#message${messageId}`).remove();
+        read_count()
     }
 
 </script>
